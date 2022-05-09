@@ -3,23 +3,46 @@ import React, { useEffect, useState } from "react";
 import SignUp from "../SignUp/signUpPage";
 import { Routes, Route, useNavigate } from "react-router-dom";
 
-
 const LoginPage = () => {
   let navigate = useNavigate();
+  let [fade, setFade] = useState("");
+  let [bgFade, setBgFade] = useState("");
+  let [inputEmail, setInputEmail] = useState("");
+  let [inputPw, setInputPw] = useState("");
+  let [buttonState, setButtonState] = useState("");
 
 
-  let [fade, setFade] = useState('');
-  let [bgFade, setBgFade] = useState('');
+  const check = inputEmail.includes("@") && inputPw > 0 ;
 
 
-  useEffect( () => {
-    setFade('end')
-    setBgFade('bg-end')
+
+  const handleInputEmail = (e) => {
+    setInputEmail(e.target.value);
+    console.log(inputEmail)
+  };
+
+  const handleInputPw = (e) => {
+    setInputPw(e.target.value);
+    console.log(inputPw)
+  };
+
+  useEffect(() => {
+    setFade("end");
+    setBgFade("bg-end");
     return () => {
-      setFade('')
-      setBgFade('')
+      setFade("");
+      setBgFade("");
+    };
+  }, []);
+
+  useEffect(() => {
+    if(check) {
+      setButtonState("able-button")
     }
-  }, [])
+    return () => {
+      setButtonState("")
+    }
+  })
 
   return (
     <div>
@@ -36,21 +59,33 @@ const LoginPage = () => {
             <h1 className="login-header">환영합니다!</h1>
             <form id="login-form">
               <input
-                type="text"
-                name="username"
+                value={inputEmail}
+                onChange={handleInputEmail}
+                type="email"
+                name="E-mail"
                 id="username-field"
                 className="login-form-field"
-                placeholder="Username"
+                placeholder="E-mail"
               />
               <input
+                value={inputPw}
+                onChange={handleInputPw}
                 type="password"
                 name="password"
                 id="password-field"
                 className="login-form-field"
                 placeholder="Password"
               />
-              <button id="login-form-submit"> 로그인 </button>
-              <button id="login-form-submit" onClick={() => {navigate("/signup")}}> 회원가입 </button>
+              <button disabled={!check} className={"disable-button " + buttonState}> 로그인 </button>
+              <button
+                id="login-form-submit"
+                onClick={() => {
+                  navigate("/signup");
+                }}
+              >
+                {" "}
+                회원가입{" "}
+              </button>
             </form>
           </div>
         </div>

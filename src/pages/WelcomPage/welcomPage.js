@@ -1,12 +1,12 @@
 import "./welcomPage.css";
 import React from "react";
-import { Container, Nav, NavDropdown, Button, Navbar } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import LoginPage from "../Login/loginPage";
 import SignUp from "../SignUp/signUpPage";
 
 const WelcomPage = () => {
-    let navigate = useNavigate();
+  let navigate = useNavigate();
   return (
     <div>
       <Routes>
@@ -28,18 +28,27 @@ const WelcomPage = () => {
                     variant="secondary"
                     size="lg"
                     active
-                    onClick={ () => { navigate('/loginpage') }}
+                    onClick={() => {
+                      navigate("/loginpage");
+                    }}
                   >
                     무료 이용 시작하기
                   </Button>
+                </div>
+                <div class="emoji emoji--wow">
+                  <div class="emoji__face">
+                    <div class="emoji__eyebrows"></div>
+                    <div class="emoji__eyes"></div>
+                    <div class="emoji__mouth"></div>
+                  </div>
                 </div>
               </div>
             </div>
           }
         />
-        <Route path="/loginpage" element={ <LoginPage/> } />
-        <Route path="/signup" element={ <SignUp/> } />
-        <Route path="*" element= {<div> 없는 페이지요 </div>} />
+        <Route path="/loginpage" element={<LoginPage />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="*" element={<div> 없는 페이지 </div>} />
       </Routes>
     </div>
   );
