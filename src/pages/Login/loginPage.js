@@ -6,53 +6,49 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 const LoginPage = () => {
-
+  let navigate = useNavigate();
   let [fade, setFade] = useState("");
   let [bgFade, setBgFade] = useState("");
-  let [inputName, setInputName] = useState("");
+  let [inputEmail, setInputEmail] = useState("");
   let [inputPw, setInputPw] = useState("");
   let [buttonState, setButtonState] = useState("");
-  let navigate = useNavigate();
+  const check = inputEmail.includes("@") && inputPw.length > 0;
 
-  const check = inputPw.length > 0;
+  const onSubmit = (e) => {
+    e.preventDefault();
 
-  const onClickLogin = (e) => {
-    e.preventDefault()
-    
-    console.log('click login')
-    console.log('ID : ', inputName)
-    console.log('PW : ', inputPw)
-    axios.post('/data.json', null, {
-        params: {
-        'username': inputName,
-        'password': inputPw
+    const user = {
+      email: inputEmail,
+      password: inputPw,
+    };
+
+    axios
+      .post("http://127.0.0.1:8000/accounts/login/", user)
+      .then((res) => {
+
+        if (res.data.access_token) {
+          localStorage.clear();
+          localStorage.setItem("token", res.data.access_token);
+          console.log(res.data.access_token);
+          navigate('/mainpage')
+
+          // 사용하려면 App.js에서 /로 라우팅해야 한다
+        } else {
+          setInputEmail("");
+          setInputPw("");
+          localStorage.clear();
         }
-    })
-    .then(res => {
-        console.log(res)
-        console.log('res.data.userId :: ', res.data.userId)
-        console.log('res.data.msg :: ', res.data.msg)
-        if(res.data.username === undefined){
-            // id 일치하지 않는 경우 userId = undefined, msg = '입력하신 id 가 일치하지 않습니다.'
-            console.log('======================',res.data.msg)
-            alert('입력하신 id 가 일치하지 않습니다.')
-        } else if(res.data.username === null){
-            // id는 있지만, pw 는 다른 경우 userId = null , msg = undefined
-            console.log('======================','입력하신 비밀번호 가 일치하지 않습니다.')
-            alert('입력하신 비밀번호 가 일치하지 않습니다.')
-        } else if(res.data.username === inputName) {
-            // id, pw 모두 일치 userId = userId1, msg = undefined
-            console.log('======================','로그인 성공')
-            sessionStorage.setItem('username', inputName)
-        }
-        // 작업 완료 되면 페이지 이동(새로고침)
-        document.location.href = '/'
-    })
-    .catch()
-}
- 
-  const handleInputName = (e) => {
-    setInputName(e.target.value);
+      })
+      .catch((err) => {
+        // console.clear();
+        alert("아이디 또는 비밀번호가 일치하지 않습니다");
+        setInputEmail("");
+        setInputPw("");
+      });
+  };
+
+  const handleInputEmail = (e) => {
+    setInputEmail(e.target.value);
   };
 
   const handleInputPw = (e) => {
@@ -92,13 +88,13 @@ const LoginPage = () => {
             <h1 className="login-header">환영합니다!</h1>
             <form id="login-form">
               <input
-                value={inputName}
-                onChange={handleInputName}
-                type="text"
-                name="username"
+                value={inputEmail}
+                onChange={handleInputEmail}
+                type="email"
+                name="E-mail"
                 id="username-field"
                 className="login-form-field"
-                placeholder="Username"
+                placeholder="E-mail"
               />
               <input
                 value={inputPw}
@@ -110,13 +106,11 @@ const LoginPage = () => {
                 placeholder="Password"
               />
               <button
-                onClick={onClickLogin}
-                onChange={onClickLogin}
+                onClick={onSubmit}
                 disabled={!check}
                 className={"disable-button " + buttonState}
               >
-                {" "}
-                로그인{" "}
+                로그인
               </button>
               <p>
                 아직 계정이 없나요? <Link to={`/signup`}>가입하세요!</Link>
