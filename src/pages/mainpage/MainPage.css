@@ -1,0 +1,14 @@
+.mainBg-start {
+    opacity: 0;
+}
+
+.mainBg-end {
+    opacity: 1;
+    transition: all 0.7s;
+}
+
+.main-body {
+    padding-top: 70px;
+    background-color: black;
+    color: white;
+}
