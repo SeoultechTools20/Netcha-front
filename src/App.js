@@ -1,6 +1,6 @@
 import WelcomPage from "./pages/WelcomPage/welcomPage";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import MainPage from "./pages/mainpage/MainPage";
+import { BrowserRouter as Router } from "react-router-dom";
+import "./pages/SignUp/signUpPage.css";
 
 function App() {
   return (

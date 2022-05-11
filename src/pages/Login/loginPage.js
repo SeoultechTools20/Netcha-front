@@ -22,6 +22,7 @@ const LoginPage = () => {
       password: inputPw,
     };
 
+    // REST API에 POST, email과 pw가 동일하다면 Access token을 localStorage에 저장.
     axios
       .post("http://127.0.0.1:8000/accounts/login/", user)
       .then((res) => {
@@ -31,8 +32,6 @@ const LoginPage = () => {
           localStorage.setItem("token", res.data.access_token);
           console.log(res.data.access_token);
           navigate('/mainpage')
-
-          // 사용하려면 App.js에서 /로 라우팅해야 한다
         } else {
           setInputEmail("");
           setInputPw("");
@@ -40,7 +39,6 @@ const LoginPage = () => {
         }
       })
       .catch((err) => {
-        // console.clear();
         alert("아이디 또는 비밀번호가 일치하지 않습니다");
         setInputEmail("");
         setInputPw("");

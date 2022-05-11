@@ -1,5 +1,5 @@
 .mainBg-start {
-    opacity: 0;
+    opacity: 0.85;
 }
 
 .mainBg-end {
@@ -8,8 +8,13 @@
 }
 
 .main-body {
-    height: 100vh;
     padding-top: 70px;
     background-color: black;
+    background-size: cover;
     color: white;
+}
+
+.genre-container {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
 }
